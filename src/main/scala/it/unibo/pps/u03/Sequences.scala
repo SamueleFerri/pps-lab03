@@ -2,6 +2,7 @@ package u03
 
 import u03.Optionals.Optional
 
+import scala.annotation.tailrec
 import scala.collection.View.Concat
 
 object Sequences: // Essentially, generic linkedlists
@@ -86,7 +87,24 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [30, 20, 10] => 10
      * E.g., [10, 1, 30] => 1
      */
-    def min(s: Sequence[Int]): Optional[Int] = ???
+    def min(s: Sequence[Int]): Optional[Int] =
+      @annotation.tailrec
+      def recMin(s: Sequence[Int], currentMin: Optional[Int]): Optional[Int] = s match
+        case Nil() => currentMin
+        case Cons(h, t) =>
+          val nextMin = currentMin match
+            case Optional.Empty() => Optional.Just(h)
+            case Optional.Just(v) => if (h < v) Optional.Just(h) else Optional.Just(v)
+          recMin(t, nextMin)
+      recMin(s, Optional.Empty())
+
+    def min2(s: Sequence[Int]): Optional[Int] =
+      @annotation.tailrec
+      def recMin2(s: Sequence[Int], currentMin: Optional[Int]): Optional[Int] = (s, currentMin) match
+        case (Nil(), _) => currentMin
+        case (Cons(h, t), Optional.Empty()) => recMin2(t, Optional.Just(h))
+        case (Cons(h, t), Optional.Just(lastMin)) => recMin2(t, if (h < lastMin) Optional.Just(h) else Optional.Just(lastMin))
+      recMin2(s, Optional.Empty())
 
     /*
      * Get the elements at even indices
