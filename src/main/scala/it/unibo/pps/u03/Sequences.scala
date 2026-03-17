@@ -185,6 +185,12 @@ object Persons:
       case Person.Student(name, year) => Nil()
   }
 
+  @tailrec
+  def foldLeft[A, B](s: Sequence[A])(default: B)(opt: (B, A) => B): B = s match
+    case Nil() => default
+    case Cons(h, t) => foldLeft(t)(opt(default, h))(opt)
+
+
 @main def trySequences(): Unit =
   import Sequences.* 
   val l = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(30, Sequence.Nil())))

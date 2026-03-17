@@ -87,22 +87,29 @@ class SequenceTest:
     assertEquals(Nil(), evenEmpty)
     assertEquals(Nil(), oddEmpty)
 
-  @Test def testGetCoursesMapFilter() =
+  @Test def testGetCoursesMapFilter(): Unit =
     val persons = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Ricci", "PCD"), Nil())))
     val expected = Cons("PPS", Cons("PCD", Nil()))
     assertEquals(expected, getCoursesMapFilter(persons))
-    
+
     val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
     assertEquals(Nil(), getCoursesMapFilter(soloStudenti))
-    
+
     assertEquals(Nil(), getCoursesMapFilter(Nil()))
 
-  @Test def testGetCoursesWithFlatMap() =
+  @Test def testGetCoursesWithFlatMap(): Unit =
     val persons = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Ricci", "PCD"), Nil())))
     val expected = Cons("PPS", Cons("PCD", Nil()))
     assertEquals(expected, getCoursesWithFlatMap(persons))
 
     val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
     assertEquals(Nil(), getCoursesWithFlatMap(soloStudenti))
-    
+
     assertEquals(Nil(), getCoursesWithFlatMap(Nil()))
+
+  @Test def testFoldLeft(): Unit =
+    val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+    assertEquals(-16, foldLeft(lst)(0)(_ - _))
+    assertEquals(16, foldLeft(lst)(0)(_ + _))
+    assertEquals("3715", foldLeft(lst)("")(_ + _))
+    assertEquals(100, foldLeft(Nil[Int]())(100)(_ + _))
