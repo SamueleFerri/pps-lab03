@@ -3,7 +3,6 @@ package u03
 import u03.Optionals.Optional
 
 import scala.annotation.tailrec
-import scala.collection.View.Concat
 
 object Sequences: // Essentially, generic linkedlists
   
@@ -163,8 +162,30 @@ object Sequences: // Essentially, generic linkedlists
         case (passed, failed) if pred(h) => (Cons(h, passed), failed)
         case (passed, failed) => (passed, Cons(h, failed))
 
+object Persons:
+  import Sequences.*
+  import Sequence.*
 
-@main def trySequences =
+  enum Person:
+    case Student(name: String, year: Int)
+    case Teacher(name: String, course: String)
+
+  def getCoursesMapFilter(persons: Sequence[Person]): Sequence[String] =
+    map(filter(persons) {
+      case Person.Teacher(name, course) => true
+      case Person.Student(name, year)   => false
+    }){
+      case Person.Teacher(name, course) => course
+      case Person.Student(name, year)   => ""
+    }
+
+  def getCoursesWithFlatMap(persons: Sequence[Person]): Sequence[String] =
+    flatMap(persons) {
+      case Person.Teacher(name, course) => Cons(course, Nil())
+      case Person.Student(name, year) => Nil()
+  }
+
+@main def trySequences(): Unit =
   import Sequences.* 
   val l = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(30, Sequence.Nil())))
   println(Sequence.sum(l)) // 30

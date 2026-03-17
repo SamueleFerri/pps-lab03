@@ -7,6 +7,8 @@ import u03.Optionals.Optional.{Empty, Just}
 class SequenceTest:
   import u03.Sequences.*
   import Sequence.*
+  import u03.Persons.*
+  import Person.*
 
   val sequence: Sequence[Int] = Cons(10, Cons(20, Cons(30, Nil())))
 
@@ -84,3 +86,23 @@ class SequenceTest:
     val (evenEmpty, oddEmpty) = partition(emptySequence)(x => true)
     assertEquals(Nil(), evenEmpty)
     assertEquals(Nil(), oddEmpty)
+
+  @Test def testGetCoursesMapFilter() =
+    val persons = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Ricci", "PCD"), Nil())))
+    val expected = Cons("PPS", Cons("PCD", Nil()))
+    assertEquals(expected, getCoursesMapFilter(persons))
+    
+    val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
+    assertEquals(Nil(), getCoursesMapFilter(soloStudenti))
+    
+    assertEquals(Nil(), getCoursesMapFilter(Nil()))
+
+  @Test def testGetCoursesWithFlatMap() =
+    val persons = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Ricci", "PCD"), Nil())))
+    val expected = Cons("PPS", Cons("PCD", Nil()))
+    assertEquals(expected, getCoursesWithFlatMap(persons))
+
+    val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
+    assertEquals(Nil(), getCoursesWithFlatMap(soloStudenti))
+    
+    assertEquals(Nil(), getCoursesWithFlatMap(Nil()))
