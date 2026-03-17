@@ -129,14 +129,16 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(h, t) if h.equals(elem) => true
       case Cons(_, t) => contains(t)(elem)
       case Nil() => false
-      
+
 
     /*
      * Remove duplicates from the sequence
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
+    def distinct[A](s: Sequence[A]): Sequence[A] = s match
+      case Cons(h, t) => Cons(h, distinct(filter(t)(_ != h)))
+      case Nil() => Nil()
 
     /*
      * Group contiguous elements in the sequence
