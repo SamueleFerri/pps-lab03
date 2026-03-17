@@ -35,6 +35,7 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30], 0 => [10, 20, 30]
      * E.g., [], 2 => []
      */
+    @annotation.tailrec
     def skip[A](s: Sequence[A])(n: Int): Sequence[A] = s match
       case Cons(_, t) if n > 0 => skip(t)(n - 1)
       case _ => s
@@ -111,7 +112,12 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [10, 30]
      * E.g., [10, 20, 30, 40] => [10, 30]
      */
-    def evenIndices[A](s: Sequence[A]): Sequence[A] = ???
+    def evenIndices[A](s: Sequence[A]): Sequence[A] =
+      def recEvenIndices(s: Sequence[A], indices: Int): Sequence[A] = s match
+        case Cons(h, t) if indices % 2 == 0 => Cons(h, recEvenIndices(t, indices + 1))
+        case Cons(_, t) => recEvenIndices(t, indices + 1)
+        case Nil() => Nil()
+      recEvenIndices(s, 0)
 
     /*
      * Check if the sequence contains the element
