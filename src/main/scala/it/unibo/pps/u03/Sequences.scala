@@ -146,7 +146,11 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [[10], [20], [30]]
      * E.g., [10, 20, 20, 30] => [[10], [20, 20], [30]]
      */
-    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = ???
+    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = s match
+      case Nil() => Nil()
+      case Cons(h, t) => group(t) match
+        case Cons(Cons(h2, t2), tailGroup) if h == h2 => Cons(Cons(h, Cons(h2, t2)), tailGroup)
+        case groupedTail => Cons(Cons(h, Nil()), groupedTail)
 
     /*
      * Partition the sequence into two sequences based on the predicate
