@@ -43,10 +43,15 @@ object Streams extends App :
       case Cons(head, tail) if pred(head()) => cons(head(), takeWhile(tail())(pred))
       case _ => Empty()
 
+    def fill[A](number: Int)(element: A): Stream[A] = number match
+      case _ if number > 0 => cons(element, fill(number - 1)(element))
+      case _ => Empty()
+
+
 
   end Stream
 
-@main def tryStreams =
+@main def tryStreams(): Unit =
   import Streams.* 
 
 //  val str1 = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
@@ -61,3 +66,4 @@ object Streams extends App :
   val stream = Stream.iterate(0)(_ + 1)
   println(Stream.toList(Stream.takeWhile(stream)(_ < 5)))
   // Cons (0 , Cons (1 , Cons (2 , Cons (3 , Cons (4 , Nil ())))))
+  println(Stream.toList(Stream.fill(3)("a"))) // Cons (a, Cons (a, Cons (a, Nil ())))
