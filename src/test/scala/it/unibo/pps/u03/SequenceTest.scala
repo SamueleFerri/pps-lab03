@@ -92,8 +92,8 @@ class SequenceTest:
     val expected = Cons("PPS", Cons("PCD", Nil()))
     assertEquals(expected, getCoursesMapFilter(persons))
 
-    val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
-    assertEquals(Nil(), getCoursesMapFilter(soloStudenti))
+    val onlyStudents = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
+    assertEquals(Nil(), getCoursesMapFilter(onlyStudents))
 
     assertEquals(Nil(), getCoursesMapFilter(Nil()))
 
@@ -102,8 +102,8 @@ class SequenceTest:
     val expected = Cons("PPS", Cons("PCD", Nil()))
     assertEquals(expected, getCoursesWithFlatMap(persons))
 
-    val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
-    assertEquals(Nil(), getCoursesWithFlatMap(soloStudenti))
+    val onlyStudents = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
+    assertEquals(Nil(), getCoursesWithFlatMap(onlyStudents))
 
     assertEquals(Nil(), getCoursesWithFlatMap(Nil()))
 
@@ -118,9 +118,9 @@ class SequenceTest:
     val persons = Cons(Teacher("Viroli", "PPS"), Cons(Teacher("Aguzzi", "PPS"), Cons(Teacher("Ricci", "PCD"), Nil())))
     assertEquals(2, countDistinctCourses(persons))
 
-    val misto = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Aguzzi", "PPS"), Nil())))
-    assertEquals(1, countDistinctCourses(misto))
+    val mix = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Aguzzi", "PPS"), Nil())))
+    assertEquals(1, countDistinctCourses(mix))
     assertEquals(0, countDistinctCourses(Nil()))
 
-    val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
-    assertEquals(0, countDistinctCourses(soloStudenti))
+    val onlyStudents = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
+    assertEquals(0, countDistinctCourses(onlyStudents))
