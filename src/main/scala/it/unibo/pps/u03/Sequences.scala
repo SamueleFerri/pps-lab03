@@ -190,6 +190,23 @@ object Persons:
     case Nil() => default
     case Cons(h, t) => foldLeft(t)(opt(default, h))(opt)
 
+  def countDistinctCourses(persons: Sequence[Person]): Int =
+    foldLeft(distinct(getCoursesWithFlatMap(persons)))(0)((acc, _) => acc + 1)
+
+  def countDistinctCourses2(persons: Sequence[Person]): Int =
+    foldLeft(
+      distinct(
+        map(
+          filter(persons) {
+            case Person.Teacher(_, _) => true
+            case Person.Student(_, _) => false
+          }
+        ){
+          case Person.Teacher(_, course) => course
+          case Person.Student(_, _)     => ""
+        }
+      )
+    )(0)((acc, _) => acc + 1)
 
 @main def trySequences(): Unit =
   import Sequences.* 

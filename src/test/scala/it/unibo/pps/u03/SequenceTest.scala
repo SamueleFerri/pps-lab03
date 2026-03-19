@@ -113,3 +113,14 @@ class SequenceTest:
     assertEquals(16, foldLeft(lst)(0)(_ + _))
     assertEquals("3715", foldLeft(lst)("")(_ + _))
     assertEquals(100, foldLeft(Nil[Int]())(100)(_ + _))
+
+  @Test def testCountDistinctCourses(): Unit =
+    val persons = Cons(Teacher("Viroli", "PPS"), Cons(Teacher("Aguzzi", "PPS"), Cons(Teacher("Ricci", "PCD"), Nil())))
+    assertEquals(2, countDistinctCourses(persons))
+
+    val misto = Cons(Teacher("Viroli", "PPS"), Cons(Student("Mario", 2022), Cons(Teacher("Aguzzi", "PPS"), Nil())))
+    assertEquals(1, countDistinctCourses(misto))
+    assertEquals(0, countDistinctCourses(Nil()))
+
+    val soloStudenti = Cons(Student("Luigi", 2023), Cons(Student("Peach", 2024), Nil()))
+    assertEquals(0, countDistinctCourses(soloStudenti))
