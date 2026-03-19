@@ -47,6 +47,8 @@ object Streams extends App :
       case _ if number > 0 => cons(element, fill(number - 1)(element))
       case _ => Empty()
 
+    def fib(current: Int, next: Int): Stream[Int] =
+      cons(current, fib(next, current + next))
 
 
   end Stream
@@ -67,3 +69,5 @@ object Streams extends App :
   println(Stream.toList(Stream.takeWhile(stream)(_ < 5)))
   // Cons (0 , Cons (1 , Cons (2 , Cons (3 , Cons (4 , Nil ())))))
   println(Stream.toList(Stream.fill(3)("a"))) // Cons (a, Cons (a, Cons (a, Nil ())))
+  val fibonacci: Stream[Int] = Stream.fib(0, 1)
+  println(Stream.toList(Stream.take(fibonacci)(5))) // Cons (0 , Cons (1 , Cons (1 , Cons (2 , Cons (3 , Nil ()))))
