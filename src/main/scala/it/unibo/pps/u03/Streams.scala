@@ -1,5 +1,7 @@
 package u03
 
+import u03.Sequences.Sequence
+
 import scala.collection.View.TakeWhile
 
 object Streams extends App :
@@ -54,6 +56,15 @@ object Streams extends App :
       case Empty() => s2
       case Cons(head, tail) => cons(head(), interleave(s2, tail()))
 
+    def cycle[A](sequence: Sequence[A]): Stream[A] = sequence match
+      case Sequence.Nil() => Empty()
+      case _ =>
+        def cycleMethod(current: Sequence[A]): Stream[A] = current match
+          case Sequence.Cons(head, tail) => cons(head, cycleMethod(tail))
+          case Sequence.Nil() => cycleMethod(sequence)
+        cycleMethod(sequence)
+
+
 
   end Stream
 
@@ -77,3 +88,7 @@ object Streams extends App :
   val s1 = Stream.take(Stream.iterate(1)(_ + 2))(3) // {1, 3, 5}
   val s2 = Stream.take(Stream.iterate(2)(_ + 2))(5) // {2, 4, 6, 8, 10}
   println(Stream.toList(Stream.interleave(s1, s2))) // Expected output : Cons (1 , Cons (2 , Cons (3 , Cons (4 , Cons (5 , Cons (6 , Cons (8 , Cons (10 , Nil ()))))))))
+  val lst = Sequence.Cons('a', Sequence.Cons('b', Sequence.Cons('c', Sequence.Nil())))
+  val innovativeStream = Stream.cycle(lst)
+  val result = Stream.take(innovativeStream)(7)
+  println(Stream.toList(result)) // Cons(a,Cons(b,Cons(c,Cons(a,Cons(b,Cons(c,Cons(a,Nil())))))))
